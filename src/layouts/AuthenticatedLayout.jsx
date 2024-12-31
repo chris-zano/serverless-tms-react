@@ -10,7 +10,7 @@ const AuthenticatedLayout = () => {
   }
 
   if (!auth.isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return (

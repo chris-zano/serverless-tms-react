@@ -21,12 +21,6 @@ const NavBar = () => {
         <h2>TMS</h2>
       </div>
       <ul className="nav-links">
-      <li>
-          <NavLink to="tasks" className={({ isActive }) => isActive ? 'active' : ''}>Tasks</NavLink>
-        </li>
-        <li>
-          <NavLink to="teams" className={({ isActive }) => isActive ? 'active' : ''}>Teams</NavLink>
-        </li>
       </ul>
       <div className="auth-section">
         {!isAuthenticated ? (
@@ -37,7 +31,7 @@ const NavBar = () => {
           <div className="profile">
             <span className="profile-icon">👤</span>
             <span>{userName}</span>
-            <button onClick={() => signOutRedirect()}>Sign out</button>
+            <button onClick={() => auth.removeUser()}>Sign out</button>
           </div>
         )}
       </div>

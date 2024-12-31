@@ -11,6 +11,7 @@ import Tasks from "./pages/Tasks.jsx";
 import AdminTeams from "./pages/AdminTeams.jsx";
 import AdminTasks from "./pages/AdminTasks.jsx";
 import TaskDetail from "./pages/TaskDetails.jsx";
+import MemberTaskDetail from "./pages/MemberTaskDetails.jsx";
 
 
 
@@ -24,7 +25,6 @@ const router = createBrowserRouter([
     element: <AuthenticatedLayout />,
     children: [
       { index: true, element: <AdminTasks /> },
-      { path: "teams", element: <AdminTeams /> ,},
       { path: "tasks", element: <AdminTasks />,},
       { path: "tasks/task/:id", element: <TaskDetail />},
     ],
@@ -34,8 +34,9 @@ const router = createBrowserRouter([
     element: <AuthenticatedLayout />,
     children: [
       { index: true, element: <Tasks /> },
-      { path: "teams", element: <Teams /> ,},
       { path: "tasks", element: <Tasks /> },
+      { path: "tasks/task/:id", element: <MemberTaskDetail />},
+
     ],
   },
   { path: "*", element: <NotFound /> },

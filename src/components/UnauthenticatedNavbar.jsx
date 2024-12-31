@@ -11,7 +11,7 @@ const UnauthenticatedNavBar = () => {
 
     const signOutRedirect = () => {
         const clientId = "1iuqdni6sn39h36qune4dhcp3a";
-        const logoutUri = "http://localhost:5173";
+        const logoutUri = "http://localhost:5173/";
         const cognitoDomain = "https://eu-west-1xep7m4wpv.auth.eu-west-1.amazoncognito.com";
         window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
     };
@@ -28,12 +28,12 @@ const UnauthenticatedNavBar = () => {
 
             if (!userExists['status']) {
                 await user.createUser();
-                navigate("/members");
+                navigate("/members/tasks");
             } else {
                 const _user = userExists['message'];
                 if (_user.role === "member") {
                     console.log("User is a member");
-                    navigate("/members"); 
+                    navigate("/members/tasks"); 
                 } else if (_user.role === "admin") {
                     console.log("User is an admin");
                     navigate("/admin/tasks"); 
@@ -50,10 +50,7 @@ const UnauthenticatedNavBar = () => {
             <div className="nav-brand">
                 <h2>TMS</h2>
             </div>
-            <ul className="nav-links">
-                <li>Home</li>
-                <li>Teams</li>
-                <li>Tasks</li>
+            <ul className="nav-links" style={{cursor: "no-drop"}}>
             </ul>
             <div className="auth-section">
                 {!isAuthenticated ? (
@@ -64,7 +61,7 @@ const UnauthenticatedNavBar = () => {
                     <div className="profile">
                         <span className="profile-icon">👤</span>
                         <span>{userName}</span>
-                        <button onClick={() => signOutRedirect()}>Sign out</button>
+                        <button onClick={() => auth.removeUser()}>Sign out</button>
                     </div>
                 )}
             </div>

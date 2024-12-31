@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -6,6 +7,7 @@ const TaskDetail = () => {
     const [task, setTask] = useState(null);
     const [loading, setLoading] = useState(true);
     const [fetchError, setFetchError] = useState(null);
+    const navigator = useNavigate();
 
     // Fetch the task details from the API
     useEffect(() => {
@@ -30,12 +32,12 @@ const TaskDetail = () => {
     // Handle task deletion
     const handleDelete = async () => {
         try {
-            const response = await fetch(`https://v0cia3z14m.execute-api.eu-west-1.amazonaws.com/tasks/${id}`, {
+            const response = await fetch(`https://9d4a8pap3d.execute-api.eu-west-1.amazonaws.com/tasks/delete?id=${id}`, {
                 method: 'DELETE',
             });
             if (response.ok) {
                 alert('Task deleted successfully');
-                navigator.navigate('/admin/tasks');
+                navigator('/admin/tasks');
             } else {
                 throw new Error('Failed to delete task');
             }
