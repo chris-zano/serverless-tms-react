@@ -10,6 +10,7 @@ import Teams from "./pages/Teams.jsx";
 import Tasks from "./pages/Tasks.jsx";
 import AdminTeams from "./pages/AdminTeams.jsx";
 import AdminTasks from "./pages/AdminTasks.jsx";
+import TaskDetail from "./pages/TaskDetails.jsx";
 
 
 
@@ -24,7 +25,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <AdminTasks /> },
       { path: "teams", element: <AdminTeams /> ,},
-      { path: "tasks", element: <AdminTasks /> },
+      { path: "tasks", element: <AdminTasks />,},
+      { path: "tasks/task/:id", element: <TaskDetail />},
     ],
   },
   {

@@ -36,7 +36,7 @@ const UnauthenticatedNavBar = () => {
                     navigate("/members"); 
                 } else if (_user.role === "admin") {
                     console.log("User is an admin");
-                    navigate("/admin"); 
+                    navigate("/admin/tasks"); 
                 }
             }
         }
