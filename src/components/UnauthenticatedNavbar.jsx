@@ -1,8 +1,6 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router-dom";
-import User from "../models/user.model.js";
 
 const UnauthenticatedNavBar = () => {
     const auth = useAuth();
@@ -22,22 +20,21 @@ const UnauthenticatedNavBar = () => {
         if (isAuthenticated) {
             const { email, sub } = auth.user.profile;
             const username = auth.user.profile["cognito:username"];
+            const userGroups = auth.user.profile['cognito:groups'];
 
-            const user = new User(sub, email, "member", username);
-            const userExists = await user.checkUser();
-
-            if (!userExists['status']) {
-                await user.createUser();
+            if (userGroups && userGroups.includes("Administrators")) {
+                console.log("User is an admin");
+                navigate("/admin/tasks");
+            }
+            else if (userGroups && userGroups.includes("Team-Members")) {
+                console.log("User is a member");
                 navigate("/members/tasks");
-            } else {
-                const _user = userExists['message'];
-                if (_user.role === "member") {
-                    console.log("User is a member");
-                    navigate("/members/tasks"); 
-                } else if (_user.role === "admin") {
-                    console.log("User is an admin");
-                    navigate("/admin/tasks"); 
-                }
+            }
+            else {
+                console.log("User is neither an admin nor a member");
+                alert("User is neither an admin nor a member.Please select")
+                // TODO: Place user in members group
+                signOutRedirect();
             }
         }
     }

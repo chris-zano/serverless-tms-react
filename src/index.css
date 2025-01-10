@@ -5,6 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
+
   background-color: #242424;
 
   font-synthesis: none;
@@ -15,12 +16,12 @@
 
 a {
   font-weight: 500;
-  /* color: #646cff; */
+
   color: inherit;
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: initial;
 }
 
 body {
@@ -57,15 +58,13 @@ button:focus-visible {
     background-color: #ffffff;
   }
   a:hover {
-    color: #747bff;
+    color: initial;
   }
   button {
     background-color: #f9f9f9;
   }
 }
 
-
-/* General styling for navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -76,13 +75,11 @@ button:focus-visible {
   font-family: Arial, sans-serif;
 }
 
-/* Brand styling */
 .nav-brand h2 {
   color: #f0f0f0;
   margin: 0;
 }
 
-/* Navigation links */
 .nav-links {
   list-style: none;
   display: flex;
@@ -102,7 +99,6 @@ button:focus-visible {
   color: #00d1b2;
 }
 
-/* Auth section styling */
 .auth-section {
   display: flex;
   align-items: center;
@@ -133,7 +129,6 @@ button:focus-visible {
   font-size: 20px;
 }
 
-/* Modal/Dialog Styles */
 .dialog-overlay {
   position: fixed;
   top: 0;
@@ -179,7 +174,6 @@ button:focus-visible {
   font-weight: 600;
 }
 
-/* Form Controls */
 input[type="text"],
 input[type="date"],
 textarea {
@@ -202,7 +196,6 @@ textarea {
   resize: vertical;
 }
 
-/* Member Selection Dropdown */
 .member-select-container {
   border: 1px solid #e2e8f0;
   border-radius: 0.375rem;
@@ -235,7 +228,6 @@ textarea {
   border-top: 1px solid #e2e8f0;
 }
 
-/* Buttons */
 .btn-primary {
   background-color: #3b82f6;
   color: white;
@@ -267,32 +259,34 @@ textarea {
   justify-content: flex-end;
 }
 
-/* General styling for the task list */
 .task-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Flexible grid columns */
-  gap: 20px; /* Spacing between cards */
-  padding: 20px;
-  list-style-type: none; /* Remove default list styles */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 1rem;
+  list-style-type: none;
 }
 
 .task-card {
-  background-color: #000000;
+  background-color: #181818;
+  border: 1px solid transparent;
   border-radius: 2ch;
   padding: 15px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: all 0.3s, box-shadow 0.3s;
   cursor: pointer;
 }
 
 .task-card:hover {
-  transform: translateY(-5px); /* Hover effect */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  background-color: #000000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-color: rgb(56, 56, 56);
 }
 
 .task-card h4 {
   margin: 0;
   font-size: 1.2em;
-  font-weight: bold;
+  font-weight: normal;
+  text-transform: capitalize;
 }
 
 .task-card p {
@@ -301,40 +295,179 @@ textarea {
   color: #555;
 }
 
-/* Style the task status */
 .task-status {
-    font-weight: bold;
-    padding: 5px;
-    border-radius: 4px;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 4px;
 }
 
 .task-status.not-started {
-    color: rgb(255, 186, 129);
+  color: #5d5d5d;
 }
 
 .task-status.in-progress {
-    color: rgb(139, 139, 255);
+  color: #545454;
 }
 
 .task-status.completed {
-    color: rgb(101, 255, 101);
+  color: #626262;
 }
 
-/* Style for due date text */
 .task-due-date {
-    font-size: 1em;
-    padding: 5px;
-    border-radius: 4px;
+  font-size: 1em;
+  padding: 5px;
+  border-radius: 4px;
 }
 
 .task-due-date.today {
-    color: rgb(255, 105, 105); /* Red for tasks due today */
+  color: #a5a5a5;
 }
 
 .task-due-date.upcoming {
-    color: rgb(103, 103, 255); /* Blue for upcoming tasks */
+  color: #b0b0b1;
 }
 
 .task-due-date.overdue {
-    color: orange; /* Orange for overdue tasks */
+  color: #c7c7c7;
+}
+
+.table-wrap {
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+  margin: 2rem auto;
+}
+
+/* Table container */
+table {
+  margin: 2rem auto;
+  width: 90%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 1rem;
+}
+
+/* Table Header */
+thead {
+  background-color: #0f0f0f;
+  text-align: left;
+  font-weight: lighter;
+  color: #dadada;
+}
+
+th {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-align: left;
+  border: 1px solid #313531;
+}
+
+th:hover {
+  background-color: #2e2e2e;
+}
+
+tbody {
+  border: 1px solid #313531;
+}
+
+/* Table Rows */
+tbody tr {
+  /* border: 1px solid #ddd; */
+}
+
+tbody tr:nth-child(even) {
+  background-color: #2e2e2e;
+}
+
+tbody tr:hover {
+  background-color: #2e2e2e;
+  cursor: pointer;
+}
+
+/* Table Cells */
+td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #313531;
+  max-width: 400px;
+}
+
+/* Task Status Colors */
+.task-status {
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.task-status.not-started {
+  background-color: #ffadad;
+  color: #7a0000;
+}
+
+.task-status.in-progress {
+  background-color: #ffd700;
+  color: #6c4f00;
+}
+
+.task-status.completed {
+  background-color: #90ee90;
+  color: #1e7e34;
+}
+
+/* Task Due Date Styles */
+.task-due-date {
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.task-due-date.today {
+  background-color: #ffeb3b;
+  color: #6a4f00;
+}
+
+.task-due-date.upcoming {
+  background-color: #90caf9;
+  color: #1976d2;
+}
+
+.task-due-date.overdue {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Responsive Table */
+@media screen and (max-width: 768px) {
+  table {
+    font-size: 0.9rem;
+  }
+
+  th,
+  td {
+    padding: 8px;
+  }
+
+  tbody tr {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  tbody tr td {
+    display: block;
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  tbody tr td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    font-weight: bold;
+  }
 }

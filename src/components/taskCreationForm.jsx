@@ -10,22 +10,28 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
     });
 
     const [errors, setErrors] = useState({});
-    const [teamMembers, setTeamMembers] = useState([]); // State to hold fetched team members
-    const [loading, setLoading] = useState(true); // State for loading
-    const [fetchError, setFetchError] = useState(null); // State for handling fetch errors
+    const [teamMembers, setTeamMembers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [fetchError, setFetchError] = useState(null);
 
-    // Fetch team members from API on component mount
+
     useEffect(() => {
         const fetchTeamMembers = async () => {
             try {
-                const response = await fetch('https://pwe7hvogc6.execute-api.eu-west-1.amazonaws.com/users');
+                const response = await fetch('https://j5tva2aa4m.execute-api.eu-west-1.amazonaws.com/members');
                 if (!response.ok) {
                     throw new Error('Failed to fetch team members');
                 }
-                const data = await response.json();
-                const members = data.filter((user) => user.role === 'member');
-                console.log(members);
-                setTeamMembers(members);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+                    setTeamMembers(data);
+                }
+                else {
+                    setTeamMembers([])
+                }
+
             } catch (error) {
                 setFetchError(error.message);
             } finally {
@@ -42,7 +48,7 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
             ...prev,
             [name]: value
         }));
-        // Clear error when user starts typing
+
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,
@@ -51,20 +57,25 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
         }
     };
 
-    const handleCheckboxChange = (id) => {
-        setFormData(prev => ({
-            ...prev,
-            assignedTo: prev.assignedTo.includes(id)
-                ? prev.assignedTo.filter(memberId => memberId !== id)
-                : [...prev.assignedTo, id]
-        }));
-        if (errors.assignedTo) {
-            setErrors(prev => ({
+    const handleCheckboxChange = (id, email) => {
+        const oldAssignedTo = formData.assignedTo;
+        const userAssigned = oldAssignedTo.find((member) => member.id === id);
+
+        if (userAssigned) {
+            setFormData(prev => ({
                 ...prev,
-                assignedTo: ''
+                assignedTo: oldAssignedTo.filter((member) => member.id !== id)
+            }));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                assignedTo: [...oldAssignedTo, { id, email }]
             }));
         }
     };
+
+
+
 
     const validateForm = () => {
         const newErrors = {};
@@ -97,12 +108,12 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validate the form before submitting
+
         const newErrors = validateForm();
 
         if (Object.keys(newErrors).length === 0) {
             try {
-                // Prepare the task data from the form
+
                 const taskData = {
                     title: formData.title,
                     description: formData.description,
@@ -111,7 +122,8 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
                     assigned_to: formData.assignedTo
                 };
 
-                // Send POST request to the API
+                console.log(taskData);
+
                 const response = await fetch('https://c0sl1f9s07.execute-api.eu-west-1.amazonaws.com/Development/tasks/add', {
                     method: 'POST',
                     headers: {
@@ -120,16 +132,16 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
                     body: JSON.stringify(taskData)
                 });
 
-                // Check if the request was successful
+
                 if (!response.ok) {
                     throw new Error('Failed to submit task');
                 }
 
-                // Parse the response (optional, depending on your API)
+
                 const result = await response.json();
                 console.log('Task created:', result);
 
-                // Reset the form and close the dialog
+
                 setFormData({
                     title: '',
                     description: '',
@@ -138,7 +150,7 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
                     assignedTo: []
                 });
                 setErrors({});
-                onClose(); // Close the form dialog
+                onClose();
 
             } catch (error) {
                 console.error('Error submitting form:', error);
@@ -151,11 +163,11 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
 
 
     if (loading) {
-        return <p>Loading team members...</p>; // You can show a loading message or spinner here
+        return <p>Loading team members...</p>;
     }
 
     if (fetchError) {
-        return <p className="text-red-500">{fetchError}</p>; // Handle fetch error
+        return <p className="text-red-500">{fetchError}</p>;
     }
 
     return (
@@ -222,16 +234,17 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
                     <div className="space-y-2">
                         <label>Assign To</label>
                         <div className="space-y-2">
-                            {teamMembers.map(member => (
-                                <div key={member.id} className="flex items-center space-x-2">
+                            {teamMembers && teamMembers.map(member => (
+                                <div key={member.Sub} className="flex items-center space-x-2">
                                     <input
                                         type="checkbox"
-                                        id={`member-${member.id}`}
-                                        checked={formData.assignedTo.includes(member.id)}
-                                        onChange={() => handleCheckboxChange(member.id)}
+                                        id={`member-${member.Sub}`}
+                                        checked={formData.assignedTo.indexOf(member => member.id === member.Sub) > 0 ? 'true' : 'false'}
+                                        // checked={formData.assignedTo.some(member => member.id === member.Sub)}
+                                        onChange={() => handleCheckboxChange(member.Sub, member.Email)}
                                     />
-                                    <label htmlFor={`member-${member.id}`} className="cursor-pointer">
-                                        {`${member.username} (${member.email})`}
+                                    <label htmlFor={`member-${member.Sub}`} className="cursor-pointer">
+                                        {`${member.Username} (${member.Email})`}
                                     </label>
                                 </div>
                             ))}

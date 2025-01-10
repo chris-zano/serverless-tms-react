@@ -7,20 +7,24 @@ const NavBar = () => {
   const isAuthenticated = auth.isAuthenticated;
   const userName = auth.user?.profile["cognito:username"];
 
-  const signOutRedirect = () => {
-    const clientId = "1iuqdni6sn39h36qune4dhcp3a";
-    const logoutUri = "http://localhost:5173";
-    const cognitoDomain = "https://eu-west-1xep7m4wpv.auth.eu-west-1.amazoncognito.com";
-    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
-  };
-
-
   return (
     <nav className="navbar">
       <div className="nav-brand">
-        <h2>TMS</h2>
+        <NavLink to='/'>
+          <h2>TMS</h2>
+        </NavLink>
       </div>
       <ul className="nav-links">
+        {/* <NavLink
+          to="tasks"
+        >
+          Tasks
+        </NavLink>
+        <NavLink
+          to="teams"
+        >
+          Teams
+        </NavLink> */}
       </ul>
       <div className="auth-section">
         {!isAuthenticated ? (
