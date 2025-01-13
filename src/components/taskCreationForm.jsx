@@ -25,7 +25,6 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data);
                     setTeamMembers(data);
                 }
                 else {
@@ -60,8 +59,10 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
     const handleCheckboxChange = (id, email) => {
         const oldAssignedTo = formData.assignedTo;
         const userAssigned = oldAssignedTo.find((member) => member.id === id);
-
+        
         if (userAssigned) {
+            
+            console.log({oldAssignedTo});
             setFormData(prev => ({
                 ...prev,
                 assignedTo: oldAssignedTo.filter((member) => member.id !== id)
@@ -122,7 +123,6 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
                     assigned_to: formData.assignedTo
                 };
 
-                console.log(taskData);
 
                 const response = await fetch('https://c0sl1f9s07.execute-api.eu-west-1.amazonaws.com/Development/tasks/add', {
                     method: 'POST',
@@ -239,8 +239,8 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
                                     <input
                                         type="checkbox"
                                         id={`member-${member.Sub}`}
-                                        checked={formData.assignedTo.indexOf(member => member.id === member.Sub) > 0 ? 'true' : 'false'}
-                                        // checked={formData.assignedTo.some(member => member.id === member.Sub)}
+                                        checked={formData.assignedTo.some((m) => m.id === member.Sub)}
+
                                         onChange={() => handleCheckboxChange(member.Sub, member.Email)}
                                     />
                                     <label htmlFor={`member-${member.Sub}`} className="cursor-pointer">

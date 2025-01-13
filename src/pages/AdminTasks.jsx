@@ -21,18 +21,21 @@ const AdminTasks = () => {
     const due = new Date(dueDate);
     const timeDiff = due - now;
     const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    return daysRemaining === 0 ? "Today" : `${daysRemaining} days from now`;
+    return daysRemaining === 0 ? "Today" : daysRemaining < 0 ? "Overdue" : daysRemaining === 1 ? `${daysRemaining} day from now` : `${daysRemaining} days from now`;
   };
 
   const calculateDaysRemainingClass = (dueDate) => {
-    const now = new Date();
-    const due = new Date(dueDate);
+    console.log(dueDate);
+    const now = new Date().getTime();
+    const due = new Date(dueDate).getTime();
+    console.log({now, due});
     const timeDiff = due - now;
     const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    console.log(daysRemaining);
 
     if (daysRemaining === 0) return "today";
     if (daysRemaining > 0) return "upcoming";
-    return "overdue";
+    if (daysRemaining < 0) return "overdue";
   };
 
   const fetchTasks = async () => {
@@ -142,7 +145,9 @@ const AdminTasks = () => {
                             .toLowerCase()
                             .replace(" ", "-")}`}
                         >
-                          {task.status}
+                          {calculateDaysRemainingClass() === "overdue"
+                            ? "Overdue"
+                            : task.status}
                         </span>
                       </td>
                       <td>
