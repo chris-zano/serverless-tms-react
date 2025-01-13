@@ -13,6 +13,7 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
     const [teamMembers, setTeamMembers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [fetchError, setFetchError] = useState(null);
+    const [isSubmitting, setSubmissionState] = useState(false)
 
 
     useEffect(() => {
@@ -76,7 +77,13 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
     };
 
 
-
+    const handleLoadingSubmission = async (event) => {
+        if (isSubmitting) {
+            event.target.textContent = 'Loading...';
+            event.target.style.backgroundColor = 'gray';
+            return;
+        }
+    }
 
     const validateForm = () => {
         const newErrors = {};
@@ -113,6 +120,7 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
         const newErrors = validateForm();
 
         if (Object.keys(newErrors).length === 0) {
+            setSubmissionState(true)
             try {
 
                 const taskData = {
@@ -256,7 +264,11 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
                         <button type="button" onClick={onClose} className="btn-outline">
                             Cancel
                         </button>
-                        <button type="submit" className="btn-primary">
+                        <button type="submit" 
+                        className="btn-primary" 
+                        style={{marginLeft: '1rem'}}
+                        onClick={handleLoadingSubmission}
+                        >
                             Create Ticket
                         </button>
                     </div>
