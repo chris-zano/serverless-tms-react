@@ -9,7 +9,7 @@ const UnauthenticatedNavBar = () => {
 
     const signOutRedirect = () => {
         const clientId = "1iuqdni6sn39h36qune4dhcp3a";
-        const logoutUri = "http://localhost:5173/";
+        const logoutUri = "https://main.d1d6umq1rxq43.amplifyapp.com/";
         const cognitoDomain = "https://eu-west-1xep7m4wpv.auth.eu-west-1.amazoncognito.com";
         window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
     };
