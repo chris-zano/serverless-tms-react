@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from "react-oidc-context";
 
 const NavBar = () => {
   const auth = useAuth();
+  const [home, setHome] = useState();
   const isAuthenticated = auth.isAuthenticated;
   const userName = auth.user?.profile["cognito:username"];
 
   return (
     <nav className="navbar">
       <div className="nav-brand">
-        <NavLink to='/'>
+        <NavLink to={home}>
           <h2>TMS</h2>
         </NavLink>
       </div>
