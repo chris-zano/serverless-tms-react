@@ -15,7 +15,7 @@ library.add(fas, fab, far);
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_xEP7m4WPV",
   client_id: "1iuqdni6sn39h36qune4dhcp3a",
-  redirect_uri: "http://localhost:5173",
+  redirect_uri: "https://main.d1d6umq1rxq43.amplifyapp.com/",
   response_type: "code",
   scope: "phone openid email",
 };
