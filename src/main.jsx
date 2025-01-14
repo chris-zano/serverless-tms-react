@@ -20,7 +20,7 @@ const cognitoAuthConfig = {
   response_type: "code",
   scope: "phone openid email",
 };
-
+console.log(cognitoAuthConfig.redirect_uri);
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider {...cognitoAuthConfig}>
