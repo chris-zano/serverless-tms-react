@@ -10,8 +10,8 @@ const formatDate = (dateString) => {
 
     const day = date.getDate();
     const suffix = day === 1 || day === 21 || day === 31 ? 'st' :
-                  day === 2 || day === 22 ? 'nd' :
-                  day === 3 || day === 23 ? 'rd' : 'th';
+        day === 2 || day === 22 ? 'nd' :
+            day === 3 || day === 23 ? 'rd' : 'th';
 
     const formattedDate = date.toLocaleDateString('en-GB', options); // Format to "Sun, 3rd March 2025"
 
@@ -47,6 +47,20 @@ const MemberTaskDetail = () => {
     }, [id]);
 
     const startTask = async (taskId) => {
+        if (!auth.isAuthenticated) {
+            alert('You need to be logged in to start a task');
+            return;
+        }
+        const user_id = auth.user?.profile.sub;
+        const user_email = auth.user?.profile.email;
+        const user_name = auth.user?.profile['cognito:username'];
+
+        const user_data = {
+            id: user_id,
+            email: user_email,
+            username: user_name,
+        };
+
         try {
             const response = await fetch(`https://iw2vls7a3b.execute-api.eu-west-1.amazonaws.com/tasks/task/status`, {
                 method: 'POST',
@@ -55,6 +69,7 @@ const MemberTaskDetail = () => {
                     Authorization: `Bearer ${auth.user?.access_token}`,
                 },
                 body: JSON.stringify({
+                    user: user_data,
                     id: taskId,
                     status: 'in-progress',
                 }),
@@ -71,7 +86,20 @@ const MemberTaskDetail = () => {
         }
     };
 
-    const completeTask  = async (taskId) => {
+    const completeTask = async (taskId) => {
+        if (!auth.isAuthenticated) {
+            alert('You need to be logged in to start a task');
+            return;
+        }
+        const user_id = auth.user?.profile.sub;
+        const user_email = auth.user?.profile.email;
+        const user_name = auth.user?.profile['cognito:username'];
+
+        const user_data = {
+            id: user_id,
+            email: user_email,
+            username: user_name,
+        };
         try {
             const response = await fetch(`https://iw2vls7a3b.execute-api.eu-west-1.amazonaws.com/tasks/task/status`, {
                 method: 'POST',
@@ -80,6 +108,7 @@ const MemberTaskDetail = () => {
                     Authorization: `Bearer ${auth.user?.access_token}`,
                 },
                 body: JSON.stringify({
+                    user: user_data,
                     id: taskId,
                     status: 'completed',
                 }),
@@ -96,82 +125,40 @@ const MemberTaskDetail = () => {
         }
     };
 
-    // Inline styles for the component
-    const styles = {
-        container: {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'start',
-            height: '100vh',
-            backgroundColor: '#121212',
-            color: '#fff',
-            padding: '20px',
-        },
-        taskDetail: {
-            backgroundColor: '#1e1e1e',
-            padding: '20px',
-            borderRadius: '2ch',
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)',
-            width: '90%',
-            maxWidth: '500px',
-        },
-        button: {
-            backgroundColor: '#4caf50', // Green for start task
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-            transition: 'background-color 0.3s',
-            marginRight: '10px',
-        },
-        buttonComplete: {
-            backgroundColor: '#2196f3', // Blue for complete task
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            padding: '10px 20px',
-            cursor: 'pointer',
-            transition: 'background-color 0.3s',
-        },
-        buttonHover: {
-            backgroundColor: '#388e3c', // Dark green for hover on start
-        },
-        buttonCompleteHover: {
-            backgroundColor: '#1976d2', // Dark blue for hover on complete
-        },
-        error: {
-            color: 'red',
-        },
-        heading: {
-            fontSize: '1.8rem',
-            marginBottom: '20px',
-        },
-        paragraph: {
-            fontSize: '1rem',
-            marginBottom: '10px',
-        },
-    };
-
     return (
-        <div style={styles.container}>
+        <div className='w-full flex justify-center mt-6 p-4'>
             {loading ? (
                 <p>Loading task details...</p>
             ) : fetchError ? (
-                <p style={styles.error}>{fetchError}</p>
+                <p className=''>{fetchError}</p>
             ) : task ? (
-                <div style={styles.taskDetail}>
-                    <h3 style={styles.heading}>{task.title}</h3>
-                    <p style={styles.paragraph}><strong>Description:</strong> {task.description}</p>
-                    <p style={styles.paragraph}><strong>Status:</strong> {task.status}</p>
-                    <p style={styles.paragraph}><strong>Start Date:</strong> {formatDate(task.start_date)}</p>
-                    <p style={styles.paragraph}><strong>Due Date:</strong> {formatDate(task.due_date)}</p>
+                <div className='flex-col justify-center items-center py-6 px-4 shadow-xl rounded-md'>
+                    <div>
+                        <h2 className='text-xl font-bold'>Title</h2>
+                        <h3 className='p-[1ch] border border-gray-300 rounded-md my-2 w-80'>{task.title}</h3>
+                    </div>
+                    <div>
+                        <strong>Description:</strong>
+                        <p className='p-[1ch] border border-gray-300 rounded-md my-2 w-80'>{task.description}</p>
+                    </div>
+                    <div>
+                        <strong>Status:</strong>
+                        <p className='p-[1ch] border border-gray-300 rounded-md my-2 w-80'>{task.status}</p>
+                    </div>
+                    <div className='flex-col justify-between gap-3'>
+                        <div>
+                            <strong>Start Date:</strong>
+                            <p className='text-sm p-[1ch] border border-gray-300 rounded-md'>{formatDate(task.start_date)}</p>
+                        </div>
+                        <div>
+                            <strong>Due Date:</strong>
+                            <p className='text-sm p-[1ch] border border-gray-300 rounded-md'>{formatDate(task.due_date)}</p>
+                        </div>
+                    </div>
 
                     {task.status === 'not-started' && (
                         <button
-                            style={styles.button}
-                            onMouseOver={(e) => (e.target.style.backgroundColor = styles.buttonHover.backgroundColor)}
-                            onMouseOut={(e) => (e.target.style.backgroundColor = styles.button.backgroundColor)}
+                            className='mt-4 float-end px-4 py-2 bg-green-500 rounded-md text-white font-bold hover:bg-green-600'
                             onClick={() => startTask(task.id)}
                         >
                             Start Task
@@ -180,14 +167,22 @@ const MemberTaskDetail = () => {
 
                     {task.status === 'in-progress' && (
                         <button
-                            style={styles.buttonComplete}
-                            onMouseOver={(e) => (e.target.style.backgroundColor = styles.buttonCompleteHover.backgroundColor)}
-                            onMouseOut={(e) => (e.target.style.backgroundColor = styles.buttonComplete.backgroundColor)}
+                            className='mt-4 float-end px-4 py-2 bg-blue-500 rounded-md text-white font-bold hover:bg-blue-600'
+
                             onClick={() => completeTask(task.id)}
                         >
                             Complete Task
                         </button>
                     )}
+
+                    {task.status === 'completed' && (
+                        <div
+                            className='mt-4 float-end px-4 py-2  rounded-md text-blue-500'
+                        >
+                            Task Completed
+                        </div>
+                    )}
+
                 </div>
             ) : (
                 <p>Task not found</p>

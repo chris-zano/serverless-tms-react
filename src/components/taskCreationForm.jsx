@@ -63,7 +63,6 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
         
         if (userAssigned) {
             
-            console.log({oldAssignedTo});
             setFormData(prev => ({
                 ...prev,
                 assignedTo: oldAssignedTo.filter((member) => member.id !== id)
@@ -147,7 +146,6 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
 
 
                 const result = await response.json();
-                console.log('Task created:', result);
 
 
                 setFormData({
@@ -179,61 +177,63 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
     }
 
     return (
-        <div className={`dialog ${isOpen ? 'block' : 'hidden'}`} role="dialog" aria-labelledby="dialog-title">
+        <div className={`dialog ${isOpen ? 'flex ' : 'hidden'}  justify-center w-full px-4 py-8`} role="dialog" aria-labelledby="dialog-title">
             <div className="dialog-content">
-                <div className="dialog-header">
-                    <h3 id="dialog-title">Create New Ticket</h3>
-                </div>
+                
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} 
+                className="space-y-7 border motion-preset-expand border-gray-900/10 p-6 rounded-lg motion-preset-expand ">
+                <div className="dialog-header">
+                    <h3 id="dialog-title" className='font-bold text-xl'>Create New Ticket</h3>
+                </div>
                     <div className="space-y-2">
-                        <label htmlFor="title">Title</label>
+                        <label className='block text-sm/6 font-medium text-gray-900' htmlFor="title">Title</label>
                         <input
                             type="text"
                             id="title"
                             name="title"
                             value={formData.title}
                             onChange={handleInputChange}
-                            className={errors.title ? 'border-red-500' : ''}
+                            className='border border-gray-300 rounded-lg w-full p-2'
                         />
                         {errors.title && <p className="text-sm text-red-500">{errors.title}</p>}
                     </div>
 
                     <div className="space-y-2">
-                        <label htmlFor="description">Description</label>
+                        <label className='block text-sm/6 font-medium text-gray-900' htmlFor="description">Description</label>
                         <textarea
                             id="description"
                             name="description"
                             value={formData.description}
                             onChange={handleInputChange}
-                            className={errors.description ? 'border-red-500' : ''}
+                            className='block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
                         />
                         {errors.description && <p className="text-sm text-red-500">{errors.description}</p>}
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label htmlFor="startDate">Start Date</label>
+                            <label className='block text-sm/6 font-medium text-gray-900' htmlFor="startDate">Start Date</label>
                             <input
                                 type="date"
                                 id="startDate"
                                 name="startDate"
                                 value={formData.startDate}
                                 onChange={handleInputChange}
-                                className={errors.startDate ? 'border-red-500' : ''}
+                                className='border border-gray-300 rounded-lg w-full p-2'
                             />
                             {errors.startDate && <p className="text-sm text-red-500">{errors.startDate}</p>}
                         </div>
 
                         <div className="space-y-2">
-                            <label htmlFor="dueDate">Due Date</label>
+                            <label className='block text-sm/6 font-medium text-gray-900' htmlFor="dueDate">Due Date</label>
                             <input
                                 type="date"
                                 id="dueDate"
                                 name="dueDate"
                                 value={formData.dueDate}
                                 onChange={handleInputChange}
-                                className={errors.dueDate ? 'border-red-500' : ''}
+                                className='border border-gray-300 rounded-lg w-full p-2'
                             />
                             {errors.dueDate && <p className="text-sm text-red-500">{errors.dueDate}</p>}
                         </div>
@@ -248,10 +248,10 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
                                         type="checkbox"
                                         id={`member-${member.Sub}`}
                                         checked={formData.assignedTo.some((m) => m.id === member.Sub)}
-
+                                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                                         onChange={() => handleCheckboxChange(member.Sub, member.Email)}
                                     />
-                                    <label htmlFor={`member-${member.Sub}`} className="cursor-pointer">
+                                    <label className='block text-sm/6 font-medium text-gray-900' htmlFor={`member-${member.Sub}`}>
                                         {`${member.Username} (${member.Email})`}
                                     </label>
                                 </div>
@@ -260,12 +260,12 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
                         {errors.assignedTo && <p className="text-sm text-red-500">{errors.assignedTo}</p>}
                     </div>
 
-                    <div className="dialog-footer space-x-2">
-                        <button type="button" onClick={onClose} className="btn-outline">
+                    <div className="dialog-footer space-x-2 flex justify-end">
+                        <button type="button" onClick={onClose} className="border px-4 py-2 rounded-md hover:bg-gray-100">
                             Cancel
                         </button>
                         <button type="submit" 
-                        className="btn-primary" 
+                        className="px-4 py-2 bg-green-500 rounded-md text-white font-bold hover:bg-green-600" 
                         style={{marginLeft: '1rem'}}
                         onClick={handleLoadingSubmission}
                         >

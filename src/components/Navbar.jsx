@@ -9,34 +9,24 @@ const NavBar = () => {
   const userName = auth.user?.profile["cognito:username"];
 
   return (
-    <nav className="navbar">
+    <nav className="flex w-full justify-between p-4 items-center sticky border-b-2 border-gray-100">
       <div className="nav-brand">
         <NavLink to={home}>
-          <h2>TMS</h2>
+          <h2 className='text-xl font-black hover:text-orange-500'>TMS</h2>
         </NavLink>
       </div>
-      <ul className="nav-links">
-        {/* <NavLink
-          to="tasks"
-        >
-          Tasks
-        </NavLink>
-        <NavLink
-          to="teams"
-        >
-          Teams
-        </NavLink> */}
-      </ul>
-      <div className="auth-section">
+      <div className="">
         {!isAuthenticated ? (
           <button onClick={() => auth.signinRedirect()} className="sign-in-btn">
             Sign In
           </button>
         ) : (
-          <div className="profile">
-            <span className="profile-icon">👤</span>
+          <div className=" flex gap-2 items-center">
+            <span className="text-xl">👤</span>
             <span>{userName}</span>
-            <button onClick={() => auth.removeUser()}>Sign out</button>
+            <button onClick={() => auth.removeUser()}
+            className='bg-orange-600 px-4 py-2 rounded-lg cursor-pointer text-white font-bold hover:bg-orange-800'
+              >Sign out</button>
           </div>
         )}
       </div>

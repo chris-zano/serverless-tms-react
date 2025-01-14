@@ -9,13 +9,14 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
+import { REDIRECT_URL } from './data/contants.js';
 
 
 library.add(fas, fab, far);
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_xEP7m4WPV",
   client_id: "1iuqdni6sn39h36qune4dhcp3a",
-  redirect_uri: "https://main.d1d6umq1rxq43.amplifyapp.com/",
+  redirect_uri: REDIRECT_URL,
   response_type: "code",
   scope: "phone openid email",
 };

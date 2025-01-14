@@ -13,6 +13,7 @@ const AdminTasks = () => {
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
 
   const toggleTaskCreation = () => {
+    console.log(isCreatingTask);
     setIsCreatingTask(!isCreatingTask);
   };
 
@@ -25,13 +26,10 @@ const AdminTasks = () => {
   };
 
   const calculateDaysRemainingClass = (dueDate) => {
-    console.log(dueDate);
     const now = new Date().getTime();
     const due = new Date(dueDate).getTime();
-    console.log({now, due});
     const timeDiff = due - now;
     const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    console.log(daysRemaining);
 
     if (daysRemaining === 0) return "today";
     if (daysRemaining > 0) return "upcoming";
@@ -87,13 +85,18 @@ const AdminTasks = () => {
       <div style={{ textAlign: "right", padding: "1ch 2ch" }}>
         <button
           onClick={toggleTaskCreation}
-          style={{ backgroundColor: "#1ed34c", color: "white" }}
+          className={
+            isCreatingTask ?
+              "px-4 py-2 border border-gray-300 hover:bg-gray-100 rounded-md text-black font-medium"
+              :
+              "px-4 py-2 bg-green-500 rounded-md text-white font-bold hover:bg-green-600"
+          }
         >
           {isCreatingTask ? "Cancel Creation" : "Create New Task"}
         </button>
       </div>
       {isCreatingTask ? (
-        <TaskCreationForm onClose={toggleTaskCreation} />
+        <TaskCreationForm isOpen={toggleTaskCreation} onClose={toggleTaskCreation} />
       ) : (
         <div>
           <h3 style={{ paddingInline: "2ch" }}>Task List</h3>
@@ -102,72 +105,81 @@ const AdminTasks = () => {
           ) : fetchError ? (
             <p style={{ color: "red" }}>{fetchError}</p>
           ) : (
-            <table>
-              <thead>
-                <tr>
-                  <th>No.</th>
-                  <th onClick={() => sortTasks("title")}>Task Title</th>
-                  <th onClick={() => sortTasks("description")}>Description</th>
-                  <th onClick={() => sortTasks("status")}>
-                    <FontAwesomeIcon
-                      icon="check-circle"
-                      style={{ marginRight: "1rem" }}
-                    />
-                    <span>Status</span>
-                  </th>
-                  <th onClick={() => sortTasks("due_date")}>
-                    <FontAwesomeIcon
-                      icon="calendar-days"
-                      style={{ marginRight: "1rem" }}
-                    />
-                    <span>Due Date</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {tasks.length > 0 ? (
-                  tasks.map((task, index) => (
-                    <tr key={task.id}>
-                      <td>{index + 1}</td>
-                      <td>
-                        <NavLink to={`/admin/tasks/task/${task.id}`}>
-                          {task.title}
-                        </NavLink>
-                      </td>
-                      <td>
-                        <NavLink to={`/admin/tasks/task/${task.id}`}>
-                          {task.description}
-                        </NavLink>
-                      </td>
-                      <td>
-                        <span
-                          className={`task-status ${task.status
-                            .toLowerCase()
-                            .replace(" ", "-")}`}
-                        >
-                          {calculateDaysRemainingClass() === "overdue"
-                            ? "Overdue"
-                            : task.status}
-                        </span>
-                      </td>
-                      <td>
-                        <span
-                          className={`task-due-date ${calculateDaysRemainingClass(
-                            task.due_date
-                          )}`}
-                        >
-                          {calculateDaysRemaining(task.due_date)}
-                        </span>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
+            <div className="flex justify-center w-full px-4">
+              <table className="table-auto w-full motion-preset-blur-right ">
+                <thead className="bg-gray-300 cursor-pointer">
                   <tr>
-                    <td colSpan="5">No tasks available</td>
+                    <th className="border border-gray-400">No.</th>
+                    <th className="border border-gray-400" onClick={() => sortTasks("title")}>Task Title</th>
+                    <th className="border border-gray-400" onClick={() => sortTasks("description")}>Description</th>
+                    <th className="border border-gray-400" onClick={() => sortTasks("status")}>
+                      <FontAwesomeIcon
+                        icon="check-circle"
+                        style={{ marginRight: "1rem" }}
+                      />
+                      <span>Status</span>
+                    </th>
+                    <th className="border border-gray-400" onClick={() => sortTasks("due_date")}>
+                      <FontAwesomeIcon
+                        icon="calendar-days"
+                        style={{ marginRight: "1rem" }}
+                      />
+                      <span>Due Date</span>
+                    </th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {tasks.length > 0 ? (
+                    tasks.map((task, index) => (
+                      <tr key={task.id} className="cursor-pointer hover:bg-gray-100">
+                        <td className="border border-gray-400 text-center">
+                          <NavLink to={`/admin/tasks/task/${task.id}`}>{index + 1}</NavLink>
+
+                        </td>
+                        <td className="border border-gray-400 text-center">
+                          <NavLink to={`/admin/tasks/task/${task.id}`}>
+                            {task.title}
+                          </NavLink>
+                        </td>
+                        <td className="border border-gray-400 text-center">
+                          <NavLink to={`/admin/tasks/task/${task.id}`}>
+                            {task.description}
+                          </NavLink>
+                        </td>
+                        <td className="border border-gray-400 text-center">
+                          <NavLink to={`/admin/tasks/task/${task.id}`}>
+                            <span
+                              className={`task-status ${task.status
+                                .toLowerCase()
+                                .replace(" ", "-")}`}
+                            >
+                              {calculateDaysRemainingClass() === "overdue"
+                                ? "Overdue"
+                                : task.status}
+                            </span>
+                          </NavLink>
+                        </td>
+                        <td className="border border-gray-400 text-center">
+                          <NavLink to={`/admin/tasks/task/${task.id}`}>
+                            <span
+                              className={`task-due-date ${calculateDaysRemainingClass(
+                                task.due_date
+                              )}`}
+                            >
+                              {calculateDaysRemaining(task.due_date)}
+                            </span>
+                          </NavLink>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5">No tasks available</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       )}
