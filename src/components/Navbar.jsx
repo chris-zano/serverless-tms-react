@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from "react-oidc-context";
 
 const NavBar = () => {
+  const location = useLocation()
   const auth = useAuth();
   const [home, setHome] = useState();
   const isAuthenticated = auth.isAuthenticated;
   const userName = auth.user?.profile["cognito:username"];
+  const path = location.pathname;
 
   return (
     <nav className="flex w-full justify-between p-4 items-center sticky border-b-2 border-gray-100">
@@ -15,6 +17,16 @@ const NavBar = () => {
           <h2 className='text-xl font-black hover:text-orange-500'>TMS</h2>
         </NavLink>
       </div>
+      {auth.user?.profile["cognito:groups"]?.includes("Administrators") && (
+        <div className="nav-links flex gap-4">
+          <NavLink to="/admin/tasks" className={ path === "/admin/tasks" ? "text-orange-500 font-semibold text-lg" : "hover:text-orange-500 font-semibold text-lg"}>
+            Tasks
+          </NavLink>
+          <NavLink to="/admin/members" className={ path === "/admin/members" ? "text-orange-500 font-semibold text-lg" : "hover:text-orange-500 font-semibold text-lg"}>
+            Members
+          </NavLink>
+        </div>
+      )}
       <div className="">
         {!isAuthenticated ? (
           <button onClick={() => auth.signinRedirect()} className="sign-in-btn">

@@ -8,6 +8,7 @@ import Tasks from "./pages/Tasks.jsx";
 import AdminTasks from "./pages/AdminTasks.jsx";
 import TaskDetail from "./pages/TaskDetails.jsx";
 import MemberTaskDetail from "./pages/MemberTaskDetails.jsx";
+import ViewMembers from "./pages/AdminViewMembers.jsx";
 
 
 
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <AdminTasks /> },
       { path: "tasks", element: <AdminTasks />,},
+      { path: "members", element: <ViewMembers />,},
       { path: "tasks/task/:id", element: <TaskDetail />},
     ],
   },
