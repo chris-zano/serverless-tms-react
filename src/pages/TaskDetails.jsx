@@ -277,7 +277,7 @@ const TaskDetail = () => {
                         </form>
                     </div>
                 ) : (
-                    <p className="text-gray-800">Task not found</p>
+                    <p className="text-gray-800"></p>
                 )}
 
                 <br />

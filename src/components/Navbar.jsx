@@ -37,7 +37,7 @@ const NavBar = () => {
             <span className="text-xl">👤</span>
             <span>{userName}</span>
             <button onClick={() => auth.removeUser()}
-            className='bg-orange-600 px-4 py-2 rounded-lg cursor-pointer text-white font-bold hover:bg-orange-800'
+            className='border border-orange-600 px-4 py-2 rounded-lg cursor-pointer text-bold font-bold hover:bg-orange-600 hover:text-white'
               >Sign out</button>
           </div>
         )}

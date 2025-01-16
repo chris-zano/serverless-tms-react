@@ -92,34 +92,33 @@ const AdminTasks = () => {
               "px-4 py-2 bg-green-500 rounded-md text-white font-bold hover:bg-green-600"
           }
         >
-          {isCreatingTask ? "Cancel Creation" : "Create New Task"}
+          {isCreatingTask ? "Cancel Creation" : "New Task"}
         </button>
       </div>
       {isCreatingTask ? (
         <TaskCreationForm isOpen={toggleTaskCreation} onClose={toggleTaskCreation} />
       ) : (
         <div>
-          <h3 style={{ paddingInline: "2ch" }}>Task List</h3>
           {loading ? (
             <p>Loading tasks...</p>
           ) : fetchError ? (
             <p style={{ color: "red" }}>{fetchError}</p>
           ) : (
-            <div className="flex justify-center w-full px-4">
-              <table className="table-auto w-full motion-preset-blur-right ">
-                <thead className="bg-gray-300 cursor-pointer">
+            <div className="flex justify-center w-full px-12">
+              <table className="table-auto w-full motion-preset-blur-right rounded-l-full">
+                <thead className="bg-gray-200 cursor-pointer">
                   <tr>
-                    <th className="border border-gray-400">No.</th>
-                    <th className="border border-gray-400" onClick={() => sortTasks("title")}>Task Title</th>
-                    <th className="border border-gray-400" onClick={() => sortTasks("description")}>Description</th>
-                    <th className="border border-gray-400" onClick={() => sortTasks("status")}>
+                    <th className="py-4 px-4 rounded-tl-[5ch]">No.</th>
+                    <th className="py-4 px-4 text-left" onClick={() => sortTasks("title")}>Task Title</th>
+                    <th className="py-4 px-4 text-left" onClick={() => sortTasks("description")}>Description</th>
+                    <th className="py-4 px-4 text-left" onClick={() => sortTasks("status")}>
                       <FontAwesomeIcon
                         icon="check-circle"
                         style={{ marginRight: "1rem" }}
                       />
                       <span>Status</span>
                     </th>
-                    <th className="border border-gray-400" onClick={() => sortTasks("due_date")}>
+                    <th className="py-4 px-4 rounded-tr-[5ch] text-left" onClick={() => sortTasks("due_date")}>
                       <FontAwesomeIcon
                         icon="calendar-days"
                         style={{ marginRight: "1rem" }}
@@ -132,21 +131,21 @@ const AdminTasks = () => {
                   {tasks.length > 0 ? (
                     tasks.map((task, index) => (
                       <tr key={task.id} className="cursor-pointer hover:bg-gray-100">
-                        <td className="border border-gray-400 text-center">
+                        <td className="py-4 px-4 text-center">
                           <NavLink to={`/admin/tasks/task/${task.id}`}>{index + 1}</NavLink>
 
                         </td>
-                        <td className="border border-gray-400 text-center">
+                        <td className="py-4 px-4 text-left">
                           <NavLink to={`/admin/tasks/task/${task.id}`}>
                             {task.title}
                           </NavLink>
                         </td>
-                        <td className="border border-gray-400 text-center">
+                        <td className="py-4 px-4 text-left">
                           <NavLink to={`/admin/tasks/task/${task.id}`}>
                             {task.description}
                           </NavLink>
                         </td>
-                        <td className="border border-gray-400 text-center">
+                        <td className="py-4 px-4 text-left">
                           <NavLink to={`/admin/tasks/task/${task.id}`}>
                             <span
                               className={`task-status ${task.status
@@ -159,7 +158,7 @@ const AdminTasks = () => {
                             </span>
                           </NavLink>
                         </td>
-                        <td className="border border-gray-400 text-center">
+                        <td className="py-4 px-4 text-left">
                           <NavLink to={`/admin/tasks/task/${task.id}`}>
                             <span
                               className={`task-due-date ${calculateDaysRemainingClass(

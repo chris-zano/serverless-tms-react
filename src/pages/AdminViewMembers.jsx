@@ -13,20 +13,20 @@ const ViewMembers = () => {
     }, []);
 
     return (
-        <div className="w-full p-4 m-4">
+        <div className="flex-col justify-center w-full px-12">
             <h3 className="font-semibold">Team Members</h3>
-            <table className="table-auto w-full motion-preset-blur-right mt-2">
+            <table className="table-auto w-full motion-preset-blur-right mt-2 rounded-l-full">
                 <thead className="bg-gray-300 cursor-pointer">
-                    <th className="border border-gray-400 px-2" >#</th>
-                    <th className="border border-gray-400 text-left px-2" >Name</th>
-                    <th className="border border-gray-400 text-left px-2" >Email</th>
+                    <th className="py-4 px-4 text-center rounded-tl-[5ch]" >#</th>
+                    <th className="py-4 px-4 text-left" >Name</th>
+                    <th className="y-4 px-4 rounded-tr-[5ch] text-left" >Email</th>
                 </thead>
                 <tbody>
                     {members.map((member, index) => (
                         <tr key={member.Sub} className="cursor-pointer hover:bg-gray-100" >
-                            <td className="border border-gray-400 text-left px-2">{index + 1}</td>
-                            <td className="border border-gray-400 text-left px-2">{member.Username}</td>
-                            <td className="border border-gray-400 text-left px-2">{member.Email}</td>
+                            <td className="py-4 px-4 text-center">{index + 1}</td>
+                            <td className="py-4 px-4 text-left">{member.Username}</td>
+                            <td className="py-4 px-4 text-left">{member.Email}</td>
                         </tr>
                     ))}
                 </tbody>
