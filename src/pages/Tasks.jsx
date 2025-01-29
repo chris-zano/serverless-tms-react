@@ -93,21 +93,21 @@ const Tasks = () => {
 
   return (
     <div className="table-wrap">
-      <div className="flex justify-center w-full px-4">
+      <div className="flex justify-center w-full px-12 my-5">
         <table className="table-auto w-full motion-preset-blur-right ">
           <thead className="bg-gray-300 cursor-pointer">
             <tr>
-              <th className="border border-gray-400">No.</th>
-              <th className="border border-gray-400" onClick={() => sortTasks("title")}>Task Title</th>
-              <th className="border border-gray-400" onClick={() => sortTasks("description")}>Description</th>
-              <th className="border border-gray-400" onClick={() => sortTasks("status")}>
+              <th className="py-4 px-4 rounded-tl-[5ch]">No.</th>
+              <th className="py-4 px-4 text-left" onClick={() => sortTasks("title")}>Task Title</th>
+              <th className="py-4 px-4 text-left" onClick={() => sortTasks("description")}>Description</th>
+              <th className="py-4 px-4 text-left" onClick={() => sortTasks("status")}>
                 <FontAwesomeIcon
                   icon="check-circle"
                   style={{ marginRight: "1rem" }}
                 />
                 <span>Status</span>
               </th>
-              <th className="border border-gray-400" onClick={() => sortTasks("due_date")}>
+              <th className="py-4 px-4 rounded-tr-[5ch] text-left" onClick={() => sortTasks("due_date")}>
                 <FontAwesomeIcon
                   icon="calendar-days"
                   style={{ marginRight: "1rem" }}
@@ -120,21 +120,21 @@ const Tasks = () => {
             {tasks.length > 0 ? (
               tasks.map((task, index) => (
                 <tr key={task.id} className="cursor-pointer hover:bg-gray-100">
-                  <td className="border border-gray-400 text-center">
+                  <td className="py-4 px-4 text-center">
                     <NavLink to={`/members/tasks/task/${task.id}`}>{index + 1}</NavLink>
 
                   </td>
-                  <td className="border border-gray-400 text-center">
+                  <td className="py-4 px-4 text-left">
                     <NavLink to={`/members/tasks/task/${task.id}`}>
                       {task.title}
                     </NavLink>
                   </td>
-                  <td className="border border-gray-400 text-center">
+                  <td className="py-4 px-4 text-left">
                     <NavLink to={`/members/tasks/task/${task.id}`}>
                       {task.description}
                     </NavLink>
                   </td>
-                  <td className="border border-gray-400 text-center">
+                  <td className="py-4 px-4 text-left">
                     <NavLink to={`/members/tasks/task/${task.id}`}>
                       <span
                         className={`task-status ${task.status
@@ -147,7 +147,7 @@ const Tasks = () => {
                       </span>
                     </NavLink>
                   </td>
-                  <td className="border border-gray-400 text-center">
+                  <td className="py-4 px-4 text-left">
                     <NavLink to={`/members/tasks/task/${task.id}`}>
                       <span
                         className={`task-due-date ${calculateDaysRemainingClass(
@@ -170,7 +170,7 @@ const Tasks = () => {
       </div>
 
       <div className="mt-[4rem] px-4">
-        <details className="cursor-pointer p-4 border border-gray-100 rounded-md">
+        <details className="cursor-pointer p-4  rounded-md">
           <summary className="cursor-pointer">Completed tasks</summary>
           <div>
             <div className="flex justify-center w-full px-4">

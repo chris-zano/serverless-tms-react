@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from 'react-oidc-context';
 
-// Helper function to format date to human-readable format
 const formatDate = (dateString) => {
     const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
     const date = new Date(dateString);
@@ -30,7 +29,15 @@ const MemberTaskDetail = () => {
     useEffect(() => {
         const fetchTask = async () => {
             try {
-                const response = await fetch(`https://fkmhrzyttd.execute-api.eu-west-1.amazonaws.com/tasks/task?id=${id}`);
+                const response = await fetch(`https://49sb9n3ej2.execute-api.eu-west-1.amazonaws.com/tasks/get-one?id=${id}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${auth.user.access_token}`,
+                            "Content-Type": "application/json",
+                        },
+
+                    })
                 if (!response.ok) {
                     throw new Error('Failed to fetch task');
                 }
@@ -62,7 +69,7 @@ const MemberTaskDetail = () => {
         };
 
         try {
-            const response = await fetch(`https://iw2vls7a3b.execute-api.eu-west-1.amazonaws.com/tasks/task/status`, {
+            const response = await fetch(`https://49sb9n3ej2.execute-api.eu-west-1.amazonaws.com/tasks/update-status`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -101,7 +108,7 @@ const MemberTaskDetail = () => {
             username: user_name,
         };
         try {
-            const response = await fetch(`https://iw2vls7a3b.execute-api.eu-west-1.amazonaws.com/tasks/task/status`, {
+            const response = await fetch(`https://49sb9n3ej2.execute-api.eu-west-1.amazonaws.com/tasks/update-status`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
