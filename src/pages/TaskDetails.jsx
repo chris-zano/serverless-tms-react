@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { faCalendarDays } from '@fortawesome/free-regular-svg-icons';
+import { useAuth } from 'react-oidc-context';
 
 // Helper function to format date to human-readable format
 const formatDate = (dateString) => {
@@ -21,6 +22,7 @@ const formatDate = (dateString) => {
 };
 
 const TaskDetail = () => {
+    const auth = useAuth();
     const { id } = useParams();
     const [task, setTask] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -37,7 +39,14 @@ const TaskDetail = () => {
     useEffect(() => {
         const fetchTask = async () => {
             try {
-                const response = await fetch(`https://fkmhrzyttd.execute-api.eu-west-1.amazonaws.com/tasks/task?id=${id}`);
+                const response = await fetch(`https://49sb9n3ej2.execute-api.eu-west-1.amazonaws.com/tasks/get-one?id=${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${auth.user.access_token}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+                );
                 if (!response.ok) {
                     throw new Error('Failed to fetch task');
                 }
@@ -60,8 +69,12 @@ const TaskDetail = () => {
     // Handle task deletion
     const handleDelete = async () => {
         try {
-            const response = await fetch(`https://9d4a8pap3d.execute-api.eu-west-1.amazonaws.com/tasks/delete?id=${id}`, {
+            const response = await fetch(`https://49sb9n3ej2.execute-api.eu-west-1.amazonaws.com/tasks/delete-one?id=${id}`, {
                 method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${auth.user.access_token}`,
+                    'Content-Type': 'application/json',
+                },
             });
             if (response.ok) {
                 alert('Task deleted successfully');
@@ -77,7 +90,15 @@ const TaskDetail = () => {
     useEffect(() => {
         const fetchTeamMembers = async () => {
             try {
-                const response = await fetch('https://j5tva2aa4m.execute-api.eu-west-1.amazonaws.com/members');
+                const response = await fetch("https://49sb9n3ej2.execute-api.eu-west-1.amazonaws.com/members",
+                    {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${auth.user.access_token}`,
+                            "Content-Type": "application/json",
+                        },
+
+                    });
                 if (!response.ok) {
                     throw new Error('Failed to fetch team members');
                 }
@@ -112,9 +133,12 @@ const TaskDetail = () => {
 
             console.log({ updatedTask });
 
-            const response = await fetch('https://iw2vls7a3b.execute-api.eu-west-1.amazonaws.com/tasks/task/update', {
+            const response = await fetch('https://49sb9n3ej2.execute-api.eu-west-1.amazonaws.com/tasks/update-one', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Authorization': `Bearer ${auth.user.access_token}`,
+                    'Content-Type': 'application/json'
+                 },
                 body: JSON.stringify(updatedTask),
             });
             if (response.ok) {
@@ -247,7 +271,7 @@ const TaskDetail = () => {
                                 <summary>Completed By</summary>
                                 <div>
                                     <ul className='mt-3'>
-                                        { task.completed_by.map(user => (
+                                        {task.completed_by.map(user => (
                                             <li key={user.id} className='cursor-pointer p-4 border border-gray-100 rounded-md'>
                                                 <span><strong>Username</strong>: {user.username}</span><br />
                                                 <span><strong>Email</strong>: {user.email}</span>

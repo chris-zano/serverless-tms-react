@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from 'react-oidc-context';
 
 const TaskCreationForm = ({ isOpen, onClose }) => {
+    const auth = useAuth();
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -19,7 +21,15 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
     useEffect(() => {
         const fetchTeamMembers = async () => {
             try {
-                const response = await fetch('https://j5tva2aa4m.execute-api.eu-west-1.amazonaws.com/members');
+                const response = await fetch("https://49sb9n3ej2.execute-api.eu-west-1.amazonaws.com/members",
+                    {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${auth.user.access_token}`,
+                            "Content-Type": "application/json",
+                        },
+
+                    })
                 if (!response.ok) {
                     throw new Error('Failed to fetch team members');
                 }
@@ -60,9 +70,9 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
     const handleCheckboxChange = (id, email) => {
         const oldAssignedTo = formData.assignedTo;
         const userAssigned = oldAssignedTo.find((member) => member.id === id);
-        
+
         if (userAssigned) {
-            
+
             setFormData(prev => ({
                 ...prev,
                 assignedTo: oldAssignedTo.filter((member) => member.id !== id)
@@ -130,10 +140,10 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
                     assigned_to: formData.assignedTo
                 };
 
-
-                const response = await fetch('https://c0sl1f9s07.execute-api.eu-west-1.amazonaws.com/Development/tasks/add', {
+                const response = await fetch('https://49sb9n3ej2.execute-api.eu-west-1.amazonaws.com/tasks/add', {
                     method: 'POST',
                     headers: {
+                        Authorization: `Bearer ${auth.user.access_token}`,
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(taskData)
@@ -179,13 +189,13 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
     return (
         <div className={`dialog ${isOpen ? 'flex ' : 'hidden'}  justify-center w-full px-4 py-8`} role="dialog" aria-labelledby="dialog-title">
             <div className="dialog-content">
-                
 
-                <form onSubmit={handleSubmit} 
-                className="space-y-7 border motion-preset-expand border-gray-900/10 p-6 rounded-lg motion-preset-expand ">
-                <div className="dialog-header">
-                    <h3 id="dialog-title" className='font-bold text-xl'>Create New Ticket</h3>
-                </div>
+
+                <form onSubmit={handleSubmit}
+                    className="space-y-7 border motion-preset-expand border-gray-900/10 p-6 rounded-lg motion-preset-expand ">
+                    <div className="dialog-header">
+                        <h3 id="dialog-title" className='font-bold text-xl'>Create New Ticket</h3>
+                    </div>
                     <div className="space-y-2">
                         <label className='block text-sm/6 font-medium text-gray-900' htmlFor="title">Title</label>
                         <input
@@ -264,10 +274,10 @@ const TaskCreationForm = ({ isOpen, onClose }) => {
                         <button type="button" onClick={onClose} className="border px-4 py-2 rounded-md hover:bg-gray-100">
                             Cancel
                         </button>
-                        <button type="submit" 
-                        className="px-4 py-2 bg-green-500 rounded-md text-white font-bold hover:bg-green-600" 
-                        style={{marginLeft: '1rem'}}
-                        onClick={handleLoadingSubmission}
+                        <button type="submit"
+                            className="px-4 py-2 bg-green-500 rounded-md text-white font-bold hover:bg-green-600"
+                            style={{ marginLeft: '1rem' }}
+                            onClick={handleLoadingSubmission}
                         >
                             Create Ticket
                         </button>
