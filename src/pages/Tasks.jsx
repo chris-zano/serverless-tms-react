@@ -69,7 +69,17 @@ const Tasks = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch('https://v0cia3z14m.execute-api.eu-west-1.amazonaws.com/tasks');
+        const response = await fetch(
+          "https://49sb9n3ej2.execute-api.eu-west-1.amazonaws.com/tasks",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${auth.user.access_token}`,
+              "Content-Type": "application/json",
+            },
+  
+          }
+        );
         if (!response.ok) {
           throw new Error('Failed to fetch tasks');
         }

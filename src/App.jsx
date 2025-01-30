@@ -18,16 +18,6 @@ const router = createBrowserRouter([
     element: <PublicLayout />
   },
   {
-    path: "/admin",
-    element: <AuthenticatedLayout />,
-    children: [
-      { index: true, element: <AdminTasks /> },
-      { path: "tasks", element: <AdminTasks />,},
-      { path: "members", element: <ViewMembers />,},
-      { path: "tasks/task/:id", element: <TaskDetail />},
-    ],
-  },
-  {
     path: "/members",
     element: <AuthenticatedLayout />,
     children: [

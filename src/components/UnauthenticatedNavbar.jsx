@@ -25,7 +25,7 @@ const UnauthenticatedNavBar = () => {
 
             if (userGroups && userGroups.includes("Administrators")) {
                 console.log("User is an admin");
-                navigate("/admin/tasks");
+                auth.removeUser();
             }
             else if (userGroups && userGroups.includes("Team-Members")) {
                 console.log("User is a member");

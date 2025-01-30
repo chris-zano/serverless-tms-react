@@ -13,20 +13,10 @@ const NavBar = () => {
   return (
     <nav className="flex w-full justify-between p-4 items-center sticky border-b-2 border-gray-100">
       <div className="nav-brand">
-        <NavLink to={home}>
+        <NavLink to="/members/tasks">
           <h2 className='text-xl font-black hover:text-orange-500'>TMS</h2>
         </NavLink>
       </div>
-      {auth.user?.profile["cognito:groups"]?.includes("Administrators") && (
-        <div className="nav-links flex gap-4">
-          <NavLink to="/admin/tasks" className={ path === "/admin/tasks" ? "text-orange-500 font-semibold text-lg" : "hover:text-orange-500 font-semibold text-lg"}>
-            Tasks
-          </NavLink>
-          <NavLink to="/admin/members" className={ path === "/admin/members" ? "text-orange-500 font-semibold text-lg" : "hover:text-orange-500 font-semibold text-lg"}>
-            Members
-          </NavLink>
-        </div>
-      )}
       <div className="">
         {!isAuthenticated ? (
           <button onClick={() => auth.signinRedirect()} className="sign-in-btn">
